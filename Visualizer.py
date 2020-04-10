@@ -48,7 +48,7 @@ def sort(a, begin, end, mid, numbers,seconds):
         for j in range(7):
             canvas.move(numbers[i],0,-10)
             master.update()
-            time.sleep(0.0005)
+            time.sleep(0.005)
         updatedcoordfst.append(numbers[i]) # saving the coords after moving them up so we dont get lost
     for i in range(mid, end + 1):
         snd.append(a[i])
@@ -56,7 +56,7 @@ def sort(a, begin, end, mid, numbers,seconds):
         for j in range(7):
             canvas.move(numbers[i],0,-10)
             master.update()
-            time.sleep(0.0005)
+            time.sleep(0.005)
         updatedcoordsnd.append(numbers[i])
     pos = begin
     countera = 0
@@ -70,7 +70,7 @@ def sort(a, begin, end, mid, numbers,seconds):
             while d < 600: # till they reach the ground
                 canvas.move(updatedcoordsnd[updatedsnd],-hor,-ver) # moving them towards the original slot
                 master.update()
-                time.sleep(0.0005)
+                time.sleep(0.005)
                 (at,b,c,d) = canvas.coords(updatedcoordsnd[updatedsnd])
             numbers[pos] = updatedcoordsnd[updatedsnd] # then updating tbe numbers list with the new slots
             updatedsnd+=1
@@ -86,7 +86,7 @@ def sort(a, begin, end, mid, numbers,seconds):
                 while d < 600:
                     canvas.move(updatedcoordfst[updatedfst],hor,ver)
                     master.update()
-                    time.sleep(0.0005)
+                    time.sleep(0.005)
                     (at,b,c,d) = canvas.coords(updatedcoordfst[updatedfst])
                 numbers[pos] = updatedcoordfst[updatedfst]
                 updatedfst = updatedfst + 1
@@ -101,7 +101,7 @@ def sort(a, begin, end, mid, numbers,seconds):
         while d < 600:
             canvas.move(updatedcoordfst[updatedfst], hor, ver)
             master.update()
-            time.sleep(0.0005)
+            time.sleep(0.005)
             (at, b, c, d) = canvas.coords(updatedcoordfst[updatedfst])
         numbers[pos] = updatedcoordfst[updatedfst]
         updatedfst += 1
@@ -116,7 +116,7 @@ def sort(a, begin, end, mid, numbers,seconds):
         while d < 600:
             canvas.move(updatedcoordsnd[updatedsnd], -hor, ver)
             master.update()
-            time.sleep(0.0005)
+            time.sleep(0.005)
             (at, b, c, d) = canvas.coords(updatedcoordsnd[updatedsnd])
         numbers[pos] = updatedcoordsnd[updatedsnd]
         updatedsnd += 1
@@ -152,6 +152,7 @@ def draw_boardmerge(start, end, numbers): #draws the charts depending on the arr
     seconds = entry1.get() # gets the text box input as seconds
     if len(entry1.get()) == 0: # if nothing is entered, the default is 0.2 seconds
         seconds=0.2
+    print(seconds)    
     seconds = float(seconds)
     numbers = []
     for count, ele in enumerate(a):# adding all charts
@@ -413,7 +414,7 @@ def bubblesort(arr,border,numbers,seconds):
             while fy2<600:
                 canvas.move(numbers[i],x,y)
                 master.update()
-                time.sleep(0.0005)
+                time.sleep(0.005)
                 (fx1,fy12,fx2,fy2) = canvas.coords(numbers[i])
             (fx1,fy12,fx2,fy2) = canvas.coords(numbers[i+1])
             (sx1,sy1,sx2,sy2) = original[i]
@@ -421,7 +422,7 @@ def bubblesort(arr,border,numbers,seconds):
             while fy2<600:
                 canvas.move(numbers[i+1],-x,-y)
                 master.update()
-                time.sleep(0.0005)
+                time.sleep(0.005)
                 (fx1,fy12,fx2,fy2) = canvas.coords(numbers[i+1])
             #swap(original,i,i+1)
             swap(numbers,i,i+1)
@@ -434,7 +435,7 @@ def bubblesort(arr,border,numbers,seconds):
                 canvas.move(numbers[i],0,10)
                 canvas.move(numbers[i+1],0,10)
                 master.update()
-                time.sleep(0.0005)
+                time.sleep(0.005)
     bubblesort(arr,border-1,numbers,seconds)
 
 
@@ -468,10 +469,6 @@ def draw_boardbubble(numbers): #used to draw the charts
 
 
 
-
-
-
-
 master = tk.Tk()
 canvas = tk.Canvas(master, width=500, height=600)
 canvas.pack()
@@ -479,8 +476,15 @@ txt = canvas.create_text(77,20,fill="black",font="Times 10 italic bold",text="En
 entry1 = tk.Entry (master)
 canvas.create_window(73, 45, window=entry1)
 
+def close_window():
+  master.destroy()
+  exit()
+
+
+
 while True:
     dup = deepcopy(arr)
+    master.protocol("WM_DELETE_WINDOW", close_window)
     button = tk.Button(master,  text ="Merge Sort",width=15, height=2, command=lambda: draw_boardmerge(0, 11, ids)).place(x=370, y=0)
     button = tk.Button(master,  text ="Quick Sort",width=15, height=2, command=lambda: draw_boardquick(0, 11, ids)).place(x=250, y=0)
     button = tk.Button(master,  text ="Insertion Sort",width=15, height=2, command=lambda: draw_boardinsertion(ids)).place(x=250, y=40)
